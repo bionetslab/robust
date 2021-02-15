@@ -1,6 +1,9 @@
 # project-2020-biosteiner
 
-You need to install the following packages
-* pip install pcst_fast # Probably needs Python3.7 (easy in conda environment). We could build a version on our own.
-* pip install matplotlib
-* pip install networkx
+Install conda environment as follows (there also exists a environment.yml but it contains more packages than necessary)
+```bash
+conda create --name biosteiner python=3.7
+conda activate biosteiner
+conda install numpy matplotlib pandas networkx pip jupyter
+pip install pcst_fast
+```
