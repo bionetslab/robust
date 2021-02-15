@@ -59,6 +59,8 @@ class ExpMinMaxDiverseSteinerTreeComputer:
     def __call__(self, ppi_instance: PpiInstance, n=10):
         """
         Returns a solution set with n steiner trees for the instance.
+        Will stop automatically after the first repetition, thus, it may be less than
+        n steiner trees.
         """
         solution_set = SolutionSet(ppi_instance)
         for s in self.iterate_solutions(ppi_instance):
