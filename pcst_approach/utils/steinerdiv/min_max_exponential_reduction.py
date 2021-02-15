@@ -5,6 +5,7 @@ from .solution_set import SolutionSet
 from ..pcst import PcstInstance, solve_pcst
 from ..ppi import PpiInstance
 
+
 class ExpMinMaxDiverseSteinerTreeComputer:
     """
     A simple version to compute diverse steiner trees based on the minimum and the
@@ -55,17 +56,18 @@ class ExpMinMaxDiverseSteinerTreeComputer:
             yield steiner_tree
             self._reduce_prizes_of_used_steiner_vertices(data, steiner_tree)
 
-
     def __call__(self, ppi_instance: PpiInstance, n=10):
         """
         Returns a solution set with n steiner trees for the instance.
         """
         solution_set = SolutionSet(ppi_instance)
         for s in self.iterate_solutions(ppi_instance):
+            if s in solution_set:
+                break
             solution_set.add(s)
-            if len(solution_set)>n:
-                return solution_set
-
+            if len(solution_set) > n:
+                break
+        return solution_set
 
     def _reduce_prizes_of_used_steiner_vertices(self, data, steiner_tree: nx.Graph):
         """
@@ -91,7 +93,7 @@ class ExpMinMaxDiverseSteinerTreeComputer:
         """
         The terminal prizes are based on the diameter.
         """
-        d = data["ppi_instance"].meta[ "graph_diameter"]
+        d = data["ppi_instance"].meta["graph_diameter"]
         terminal_prize = self.initial_terminal_multiple * d * data["max_edge_cost"]
         data["pcst_graph"].update_vertex_prizes(
             {v: terminal_prize for v in data["ppi_instance"].terminals}
