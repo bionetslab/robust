@@ -28,11 +28,14 @@ class PpiInstance:
     def compute_cost(self, subgraph: nx.Graph):
         return sum(self.edge_weights[e] for e in subgraph.edges)
 
-    def is_feasible_solution(self, steiner_tree: nx.Graph):
+    def is_feasible_solution(self, steiner_tree: nx.Graph, percentage_terminals_req_in_solution: int):
         """
         Checks if the solution covers all terminals and is connected.
         """
-        for v in self.terminals:
-            if v not in steiner_tree.nodes:
-                return False
+        #for v in self.terminals:
+        #    if v not in steiner_tree.nodes:
+        #        return False
+        intersection_length = len(set(self.terminals).intersection(set(steiner_tree.nodes)))
+        if intersection_length / len(self.terminals) < percentage_terminals_req_in_solution:
+            return False
         return nx.is_connected(steiner_tree)
