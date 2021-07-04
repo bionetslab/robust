@@ -1,4 +1,4 @@
-# project-2020-biosteiner
+# Robust Algorithm
 
 Install conda environment as follows (there also exists a environment.yml but it contains more packages than necessary)
 ```bash
