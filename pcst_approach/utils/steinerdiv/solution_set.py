@@ -3,7 +3,7 @@ import pandas as pd
 from ..ppi import PpiInstance
 
 
-class SolutionSet(set):
+class SolutionSet(list):
     """
     A simple class that allows some aggregation functions on the solution set.
     """
@@ -22,9 +22,11 @@ class SolutionSet(set):
         costs = [self.ppi_instance.compute_cost(s) for s in self]
         return sum(costs) / len(costs)
 
-    def vertices(self):
+    def vertices(self, first_n=None):
         all_vertices = set()
-        for s in self:
+        if first_n is None:
+            first_n = len(self)
+        for s in self[0:first_n]:
             for v in s.nodes:
                 all_vertices.add(v)
         return all_vertices
@@ -35,7 +37,7 @@ class SolutionSet(set):
     def number_of_occurrences(self, v):
         return sum(v in s.nodes for s in self)
 
-    def get_occurrences(self, include_terminals=False) -> pd.DataFrame:
+    def get_occurrences(self, include_terminals=False, first_n=None) -> pd.DataFrame:
         """
         Returns a pandas data frame with the occurrences of the vertices.
         It has the vertex label as index and the columns
@@ -44,7 +46,7 @@ class SolutionSet(set):
         * terminal: If it is a terminal (use include_terminals=True to include them).
         """
         data = {"vertex": [], "#occurrences": [], "%occurrences": [], "terminal": []}
-        for v in self.vertices():
+        for v in self.vertices(first_n=first_n):
             if include_terminals or v not in self.ppi_instance.terminals:
                 data["vertex"].append(v)
                 data["#occurrences"].append(self.number_of_occurrences(v))

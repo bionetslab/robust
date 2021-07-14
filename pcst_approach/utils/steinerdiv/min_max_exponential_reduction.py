@@ -68,7 +68,7 @@ class ExpMinMaxDiverseSteinerTreeComputer:
         for s in self.iterate_solutions(ppi_instance, percentage_terminals_req_in_solution, max_nr_of_doublings):
             if s in solution_set:
                 break
-            solution_set.add(s)
+            solution_set.append(s)
             if len(solution_set) > n:
                 break
         return solution_set

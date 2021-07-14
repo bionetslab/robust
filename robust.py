@@ -1,5 +1,4 @@
 import sys
-import pandas as pd
 from pcst_approach.utils.ppi import PpiInstance, read_terminals, UnitEdgeWeight, read_ppi
 from pcst_approach.utils import ExpMinMaxDiverseSteinerTreeComputer
 
