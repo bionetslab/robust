@@ -1,3 +1,4 @@
+import networkx as nx
 import pandas as pd
 
 from ..ppi import PpiInstance
@@ -54,6 +55,23 @@ class SolutionSet(list):
                 data["terminal"].append(v in self.ppi_instance.terminals)
         return pd.DataFrame(data).sort_values(["#occurrences"], ascending=False,
                                               kind="mergesort").set_index("vertex")
+
+    def get_subgraph(self, threshold=0.5):
+        """
+        Returns the induced subgraph
+        """
+        import networkx as nx
+        G = nx.Graph()
+        for graph in self:
+            for n in graph.nodes:
+                is_seed = False
+                if n in self.ppi_instance.terminals:
+                    is_seed = True
+                G.add_node(n, isSeed=is_seed, significance=self.number_of_occurrences(n) / len(self), nrOfOccurrences = self.number_of_occurrences(n))
+            G.add_edges_from(graph.edges)
+        selected_nodes = [n for n,v in G.nodes(data=True) if v['significance'] >= threshold]
+        return G.subgraph(selected_nodes)
+
 
     def avg_size(self) -> float:
         return sum(s.number_of_nodes() for s in self) / len(self)

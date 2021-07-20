@@ -3,8 +3,9 @@ from pcst_approach.utils.ppi import PpiInstance, read_terminals, UnitEdgeWeight,
 from pcst_approach.utils import ExpMinMaxDiverseSteinerTreeComputer
 
 
-def call_robust(path_to_graph, path_to_seeds, init, red, numberOfSteinerTrees,
+def call_robust(path_to_graph, path_to_seeds, outfile, init, red, numberOfSteinerTrees,
                     percentage_terminals_req_in_solution, max_nr_of_doublings):
+    import networkx as nx
     # 1. Loading the instance
     graph = read_ppi(path_to_graph)
     terminals = read_terminals(path_to_seeds)
@@ -22,7 +23,14 @@ def call_robust(path_to_graph, path_to_seeds, init, red, numberOfSteinerTrees,
                            percentage_terminals_req_in_solution=percentage_terminals_req_in_solution,
                            max_nr_of_doublings=max_nr_of_doublings)
     t = steiner_trees.get_occurrences(include_terminals=True)
-    return t
+    subgraph = steiner_trees.get_subgraph(threshold=0.5)
+    print("Writing results...")
+    if outfile.endswith(".csv"):
+        t.to_csv(path_to_outfile)
+    elif outfile.endswith(".graphml"):
+        nx.write_graphml(subgraph, path_to_outfile)
+    else:
+        nx.write_edgelist(subgraph, path_to_outfile, data=False)
 
 
 if __name__ == '__main__':
@@ -66,8 +74,5 @@ if __name__ == '__main__':
           f"percentage terminals: {perc_terminals}\n"
           f"max number of doublings: {doublings}")
     number_of_steiner_trees -=1
-    tree_table = call_robust(path_to_graph, path_to_seeds, initial_fraction, reduction_factor,
+    call_robust(path_to_graph, path_to_seeds, path_to_outfile, initial_fraction, reduction_factor,
                     number_of_steiner_trees, perc_terminals, doublings)
-
-    print("Writing results...")
-    tree_table.to_csv(path_to_outfile)
