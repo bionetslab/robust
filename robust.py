@@ -3,7 +3,7 @@ from pcst_approach.utils.ppi import PpiInstance, read_terminals, UnitEdgeWeight,
 from pcst_approach.utils import ExpMinMaxDiverseSteinerTreeComputer
 
 
-def call_robust(path_to_graph, path_to_seeds, outfile, init, red, numberOfSteinerTrees,
+def call_robust(path_to_graph, path_to_seeds, outfile, init, red, numberOfSteinerTrees, treshold,
                     percentage_terminals_req_in_solution, max_nr_of_doublings):
     import networkx as nx
     # 1. Loading the instance
@@ -23,7 +23,8 @@ def call_robust(path_to_graph, path_to_seeds, outfile, init, red, numberOfSteine
                            percentage_terminals_req_in_solution=percentage_terminals_req_in_solution,
                            max_nr_of_doublings=max_nr_of_doublings)
     t = steiner_trees.get_occurrences(include_terminals=True)
-    subgraph = steiner_trees.get_subgraph(threshold=0.5)
+    t = t[t["%occurrences"] >= threshold]
+    subgraph = steiner_trees.get_subgraph(threshold=threshold)
     print("Writing results...")
     if outfile.endswith(".csv"):
         t.to_csv(path_to_outfile)
@@ -50,8 +51,9 @@ if __name__ == '__main__':
     # [4] initial fraction
     # [5] reduction factor
     # [6] number of steiner trees to be computed
-    # [7] percentage of terminals that should be included in a steiner tree [0.0-1.0]
-    # [8] how often should the terminal prizes be doubled before returning the tree anyway
+    # [7] threshold
+    # [8] percentage of terminals that should be included in a steiner tree [0.0-1.0]
+    # [9] how often should the terminal prizes be doubled before returning the tree anyway
     input_list = sys.argv
     print("Parsing input...")
     path_to_graph = str(input_list[1])
@@ -61,8 +63,9 @@ if __name__ == '__main__':
     initial_fraction = float(input_list[4])
     reduction_factor = float(input_list[5])
     number_of_steiner_trees = int(input_list[6])
-    perc_terminals = float(input_list[7])
-    doublings = int(input_list[8])
+    threshold = float(input_list[7])
+    perc_terminals = float(input_list[8])
+    doublings = int(input_list[9])
 
     print(f"Computing Steiner Trees with the following parameters: \n "
           f"graph: {path_to_graph}\n"
@@ -71,8 +74,9 @@ if __name__ == '__main__':
           f"initial fraction: {initial_fraction}\n"
           f"reduction factor: {reduction_factor}\n"
           f"number of steiner trees: {number_of_steiner_trees}\n"
+          f"threshold: {threshold}\n"
           f"percentage terminals: {perc_terminals}\n"
           f"max number of doublings: {doublings}")
     number_of_steiner_trees -=1
     call_robust(path_to_graph, path_to_seeds, path_to_outfile, initial_fraction, reduction_factor,
-                    number_of_steiner_trees, perc_terminals, doublings)
+                    number_of_steiner_trees, threshold, perc_terminals, doublings)
