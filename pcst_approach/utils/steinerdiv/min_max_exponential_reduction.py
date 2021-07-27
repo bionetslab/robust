@@ -135,14 +135,19 @@ class ExpMinMaxDiverseSteinerTreeComputer:
         of the terminals if not all are integrated in the solution.
         """
         st = solve_pcst(data["pcst_graph"])
-        i_doubled = 0
-        while not data["ppi_instance"].is_feasible_solution(st, percentage_terminals_req_in_solution):
-            self._double_terminal_prizes(data)
-            i_doubled += 1
-            if i_doubled >= max_nr_of_doublings:
-                print(f"Doubled the prizes {max_nr_of_doublings} times and could not find a feasible solution "
-                      f"with these parameters. Returning current Steiner Tree anyway.")
-                return st
+        # TODO: The following code was actually useless as it did not compute anything.
+        #       The PCST algorithm cannot guarantee to contain all seeds. This would require
+        #       an additional algorithm, possibly based on shortest path. Because the primary
+        #       part of the solution is already complete, one could also try to contract the
+        #       steiner tree and rerun the algorithm.
+        #i_doubled = 0
+        #while not data["ppi_instance"].is_feasible_solution(st, percentage_terminals_req_in_solution):
+        #    self._double_terminal_prizes(data)
+        #    i_doubled += 1
+        #    if i_doubled >= max_nr_of_doublings:
+        #        print(f"Doubled the prizes {max_nr_of_doublings} times and could not find a feasible solution "
+        #              f"with these parameters. Returning current Steiner Tree anyway.")
+        #        return st
                 #raise Exception(
                 #    """
                 #    Could not find a feasible solution even after doubling the prizes

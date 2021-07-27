@@ -23,4 +23,5 @@ def solve_pcst(pcst_graph: PcstInstance) -> nx.Graph:
     G_.add_nodes_from([vertex_ids.get_label(i) for i in vertices_])
     G_.add_edges_from([(vertex_ids.get_label(pcst_graph.edges[i][0]),
                         vertex_ids.get_label(pcst_graph.edges[i][1])) for i in edges_])
+    assert nx.is_tree(G_), "Result should be a tree"
     return G_
