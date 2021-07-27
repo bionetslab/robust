@@ -40,8 +40,7 @@ class ExpMinMaxDiverseSteinerTreeComputer:
         self.reduction_factor = reduction_factor
         self.initial_terminal_multiple = initial_terminal_multiple
 
-    def iterate_solutions(self, ppi_instance: PpiInstance,
-                          percentage_terminals_req_in_solution: int, max_nr_of_doublings: int):
+    def iterate_solutions(self, ppi_instance: PpiInstance):
         """
         Returns an infinite amount of steiner trees as a generator.
         """
@@ -53,19 +52,18 @@ class ExpMinMaxDiverseSteinerTreeComputer:
         data["max_edge_cost"] = np.max(data["pcst_graph"].costs)
         self._set_initial_prizes(data)
         while True:
-            steiner_tree = self._compute_steiner_tree(data, percentage_terminals_req_in_solution, max_nr_of_doublings)
+            steiner_tree = self._compute_steiner_tree(data)
             yield steiner_tree
             self._reduce_prizes_of_used_steiner_vertices(data, steiner_tree)
 
-    def __call__(self, ppi_instance: PpiInstance, n=10,
-                 percentage_terminals_req_in_solution=1, max_nr_of_doublings=10):
+    def __call__(self, ppi_instance: PpiInstance, n=10):
         """
         Returns a solution set with n steiner trees for the instance.
         Will stop automatically after the first repetition, thus, it may be less than
         n steiner trees.
         """
         solution_set = SolutionSet(ppi_instance)
-        for s in self.iterate_solutions(ppi_instance, percentage_terminals_req_in_solution, max_nr_of_doublings):
+        for s in self.iterate_solutions(ppi_instance):
             if s in solution_set:
                 break
             solution_set.append(s)
@@ -129,7 +127,7 @@ class ExpMinMaxDiverseSteinerTreeComputer:
             }
         )
 
-    def _compute_steiner_tree(self, data, percentage_terminals_req_in_solution, max_nr_of_doublings):
+    def _compute_steiner_tree(self, data):
         """
         Does the expensive computation of the steiner tree including doubling the prizes
         of the terminals if not all are integrated in the solution.
