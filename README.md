@@ -1,4 +1,4 @@
-# Robust Algorithm
+# Installation
 
 Install conda environment as follows (there also exists a environment.yml but it contains more packages than necessary)
 ```bash
@@ -8,7 +8,8 @@ conda install numpy matplotlib pandas networkx pip jupyter
 pip install pcst_fast
 ```
 
-# Run ROBUST
+# Running ROBUST
+
 You can simply run robust by calling
 ```bash
 python robust.py data/human_annotated_PPIs_brain.txt data/ms_seeds.txt ms.graphml 0.25 0.9 30 0.1
@@ -31,4 +32,13 @@ The suffix of the path to the output file you specify, determine the format of t
 You can either choose
 - .graphml: A .graphml file is written that contains the following vertex properties: isSeed, significance, nrOfOccurrences
 - .csv: A .csv file which contains a vertex table with #occurrences, %occurrences, terminal (isSeed) 
-- everything else: An edge list  
+- everything else: An edge list
+
+# Evaluating ROBUST
+
+For a large-scale empirical evaluation of ROBUST, please follow the instructions given here: https://github.com/bionetslab/robust-eval.
+
+# Citing ROBUST
+
+Please cite ROBUST as follows:
+- J. Bernett, D. Krupke, S. Sadegh1, J. Baumbach, S. P. Fekete, T. Kacprowski, M. List1, D. B. Blumenthal: Robust disease module mining via enumeration of diverse prize-collecting Steiner trees, (will be extended when published).
