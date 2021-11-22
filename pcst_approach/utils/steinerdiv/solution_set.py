@@ -38,6 +38,13 @@ class SolutionSet(list):
     def number_of_occurrences(self, v):
         return sum(v in s.nodes for s in self)
 
+    def tree_list(self, v):
+        tree_list = []
+        for i in range(len(self)):
+            if v in self[i].nodes:
+                tree_list.append(str(i))
+        return ",".join(tree_list)
+
     def get_occurrences(self, include_terminals=False, first_n=None) -> pd.DataFrame:
         """
         Returns a pandas data frame with the occurrences of the vertices.
@@ -64,10 +71,15 @@ class SolutionSet(list):
         G = nx.Graph()
         for graph in self:
             for n in graph.nodes:
-                is_seed = False
-                if n in self.ppi_instance.terminals:
-                    is_seed = True
-                G.add_node(n, isSeed=is_seed, significance=self.number_of_occurrences(n) / len(self), nrOfOccurrences = self.number_of_occurrences(n))
+                if n not in G.nodes:
+                    is_seed = False
+                    if n in self.ppi_instance.terminals:
+                        is_seed = True
+                    G.add_node(n,
+                               isSeed=is_seed,
+                               significance=self.number_of_occurrences(n) / len(self),
+                               nrOfOccurrences=self.number_of_occurrences(n),
+                               trees=self.tree_list(n))
             G.add_edges_from(graph.edges)
         selected_nodes = [n for n,v in G.nodes(data=True) if v['significance'] >= threshold]
         return G.subgraph(selected_nodes)

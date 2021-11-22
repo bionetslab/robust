@@ -22,6 +22,11 @@ def call_robust(path_to_graph, path_to_seeds, outfile, init, red, numberOfSteine
     t = steiner_trees.get_occurrences(include_terminals=True)
     t = t[t["%occurrences"] >= threshold]
     subgraph = steiner_trees.get_subgraph(threshold=threshold)
+    comp_idx = 0
+    for comp in sorted(nx.connected_components(subgraph), key=len, reverse=True):
+        for node in comp:
+            subgraph.nodes[node]['connected_components_id'] = comp_idx
+        comp_idx += 1
     print("Writing results...")
     if outfile.endswith(".csv"):
         t.to_csv(path_to_outfile)
