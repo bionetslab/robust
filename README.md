@@ -30,7 +30,7 @@ The positional arguments are:
 
 The suffix of the path to the output file you specify, determine the format of the output.
 You can either choose
-- .graphml: A .graphml file is written that contains the following vertex properties: isSeed, significance, nrOfOccurrences
+- .graphml: A .graphml file is written that contains the following vertex properties: isSeed, significance, nrOfOccurrences, connected_components_id, trees
 - .csv: A .csv file which contains a vertex table with #occurrences, %occurrences, terminal (isSeed) 
 - everything else: An edge list
 
