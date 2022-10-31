@@ -1,3 +1,7 @@
+# New ROBUST version
+
+We have developed a new version of ROBUST which corrects for study bias in PPI networks. The new version is available here: https://github.com/bionetslab/robust_bias_aware. Although this version is still fully functional, we recommend using the latest ROBUST version for your research.
+
 # Installation
 
 Install conda environment as follows (there also exists a environment.yml but it contains more packages than necessary)
