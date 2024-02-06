@@ -26,10 +26,10 @@ The positional arguments are:
     one column they must be tab-separated; the first column 
     will be used only)
 [3] path to output file
-[4] initial fraction
-[5] reduction factor
+[4] initial fraction (alpha)
+[5] reduction factor (beta)
 [6] number of steiner trees to be computed
-[7] threshold
+[7] threshold (theta)
 ```
 
 The suffix of the path to the output file you specify, determine the format of the output.
