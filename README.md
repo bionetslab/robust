@@ -4,17 +4,30 @@ We have developed a new version of ROBUST which corrects for study bias in PPI n
 
 # Installation
 
-Install conda environment as follows (there also exists a environment.yml but it contains more packages than necessary)
+## With conda (Bioconda)
 ```bash
-conda create --name biosteiner python=3.7
-conda activate biosteiner
-conda install numpy matplotlib pandas networkx pip jupyter
-pip install pcst_fast
+conda install -c conda-forge -c bioconda robust-pcst
+```
+
+## With pip
+```bash
+pip install git+https://github.com/bionetslab/robust.git
+```
+
+## From source
+To run the script directly from a clone of this repository, install the dependencies (Python >= 3.8) as follows:
+```bash
+conda create --name robust -c conda-forge -c bioconda python numpy matplotlib pandas networkx pcst-fast
+conda activate robust
 ```
 
 # Running ROBUST
 
-You can simply run robust by calling
+If ROBUST was installed with conda or pip, you can run it by calling
+```bash
+robust-pcst data/human_annotated_PPIs_brain.txt data/ms_seeds.txt ms.graphml 0.25 0.9 30 0.1
+```
+From a clone of this repository, you can also call the script directly:
 ```bash
 python robust.py data/human_annotated_PPIs_brain.txt data/ms_seeds.txt ms.graphml 0.25 0.9 30 0.1
 ```
