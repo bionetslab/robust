@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "robust-pcst"
+version = "1.0.0"
+description = "ROBUST: robust disease module mining via enumeration of diverse prize-collecting Steiner trees."
+readme = "README.md"
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Judith Bernett" },
+    { name = "Dominik Krupke" },
+    { name = "Sepideh Sadegh" },
+    { name = "Jan Baumbach" },
+    { name = "Sándor P. Fekete" },
+    { name = "Tim Kacprowski" },
+    { name = "Markus List" },
+    { name = "David B. Blumenthal" },
+]
+maintainers = [
+    { name = "Johannes Kersting", email = "johannes.kersting@tum.de" },
+]
+keywords = ["disease module mining", "steiner tree", "protein-protein interaction", "network medicine"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "pandas",
+    "networkx",
+    "matplotlib",
+    "pcst_fast",
+]
+
+[project.urls]
+Homepage = "https://github.com/bionetslab/robust"
+Publication = "https://doi.org/10.1093/bioinformatics/btab876"
+
+[project.scripts]
+robust-pcst = "robust_pcst.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["robust_pcst*"]
